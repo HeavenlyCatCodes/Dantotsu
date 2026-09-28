@@ -6,7 +6,8 @@
         android:id="@+id/trendingContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:clipChildren="false">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/trendingViewPager"
@@ -17,81 +18,110 @@
             android:id="@+id/titleContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="32dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="24dp"
             android:baselineAligned="false"
+            android:clipChildren="false"
             android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/searchBar"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:textColorHint="@color/bg_opp"
-                android:transitionName="@string/search"
-                app:boxBackgroundColor="?attr/colorPrimaryContainer"
-                app:boxCornerRadiusBottomEnd="28dp"
-                app:boxCornerRadiusBottomStart="28dp"
-                app:boxCornerRadiusTopEnd="28dp"
-                app:boxCornerRadiusTopStart="28dp"
-                app:boxStrokeColor="@color/text_input_layout_stroke_color"
-                app:endIconDrawable="@drawable/ic_round_search_24"
-                app:endIconTint="@color/bg_opp"
-                app:hintAnimationEnabled="true">
+            <com.example.liquidglass.LiquidGlassView
+                android:id="@+id/homeChromeGlass"
+                style="@style/LiquidGlassChrome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                app:backdropSourceId="@id/trendingViewPager"
+                app:cornerRadius="32dp">
 
-                <AutoCompleteTextView
-                    android:id="@+id/searchBarText"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:focusable="false"
-                    android:fontFamily="@font/poppins_bold"
-                    android:inputType="none"
-                    android:padding="8dp"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="14sp"
-                    tools:ignore="LabelFor,TextContrastCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/searchBar"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:textColorHint="@color/bg_opp"
+                        android:transitionName="@string/search"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        app:boxCornerRadiusBottomEnd="28dp"
+                        app:boxCornerRadiusBottomStart="28dp"
+                        app:boxCornerRadiusTopEnd="28dp"
+                        app:boxCornerRadiusTopStart="28dp"
+                        app:boxStrokeWidth="0dp"
+                        app:endIconDrawable="@drawable/ic_round_search_24"
+                        app:endIconTint="@color/bg_opp"
+                        app:hintAnimationEnabled="true">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/userAvatarContainer"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="@color/nav_bg_inv"
-                    app:cardCornerRadius="26dp">
+                        <AutoCompleteTextView
+                            android:id="@+id/searchBarText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:focusable="false"
+                            android:fontFamily="@font/poppins_bold"
+                            android:inputType="none"
+                            android:padding="8dp"
+                            android:shadowColor="#66000000"
+                            android:shadowDx="0"
+                            android:shadowDy="1"
+                            android:shadowRadius="3"
+                            android:textColor="@color/bg_opp"
+                            android:textSize="14sp"
+                            tools:ignore="LabelFor,TextContrastCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/userAvatar"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
-                        android:scaleType="center"
-                        app:srcCompat="@drawable/ic_round_settings_24"
-                        tools:ignore="ContentDescription,ImageContrastCheck" />
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                </com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/userAvatarContainer"
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            app:cardCornerRadius="26dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
 
-                <TextView
-                    android:id="@+id/notificationCount"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_gravity="end|bottom"
-                    android:background="@drawable/notification_circle"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:gravity="center"
-                    android:textColor="#F3F3F3"
-                    android:textSize="12sp"
-                    android:visibility="gone"
-                    tools:ignore="SmallSp"
-                    tools:text="1"
-                    tools:visibility="visible" />
-            </FrameLayout>
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/userAvatar"
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:scaleType="center"
+                                app:srcCompat="@drawable/ic_round_settings_24"
+                                tools:ignore="ContentDescription,ImageContrastCheck" />
 
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/notificationCount"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="end|bottom"
+                            android:background="@drawable/notification_circle"
+                            android:fontFamily="@font/poppins_semi_bold"
+                            android:gravity="center"
+                            android:textColor="#F3F3F3"
+                            android:textSize="12sp"
+                            android:visibility="gone"
+                            tools:ignore="SmallSp"
+                            tools:text="1"
+                            tools:visibility="visible" />
+                    </FrameLayout>
+                </LinearLayout>
+            </com.example.liquidglass.LiquidGlassView>
         </LinearLayout>
 
         <ProgressBar
