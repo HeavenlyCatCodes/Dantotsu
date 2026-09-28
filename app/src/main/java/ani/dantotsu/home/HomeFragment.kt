@@ -111,8 +111,8 @@ class HomeFragment : Fragment() {
                             && PrefManager.getVal<Boolean>(PrefName.ShowNotificationRedDot) == true
                     currentBinding.homeNotificationCount.text = Anilist.unreadNotificationCount.toString()
                 } else {
-                    currentBinding.homeUserEpisodesWatched.text = MAL.episodesWatched?.toString() ?: "\u2014"
-                    currentBinding.homeUserChaptersRead.text = MAL.chaptersRead?.toString() ?: "\u2014"
+                    currentBinding.homeUserEpisodesWatched.text = MAL.episodesWatched?.toString() ?: "—"
+                    currentBinding.homeUserChaptersRead.text = MAL.chaptersRead?.toString() ?: "—"
                     currentBinding.homeNotificationCount.isVisible = false
                 }
 
@@ -254,9 +254,9 @@ class HomeFragment : Fragment() {
                         anime = ani.dantotsu.media.anime.Anime(),
                         manga = null,
                         id = -100 - i,
-                        name = "\u2022\u2022\u2022",
-                        nameRomaji = "\u2022\u2022\u2022",
-                        userPreferredName = "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022",
+                        name = "•••",
+                        nameRomaji = "•••",
+                        userPreferredName = "••••••••••••",
                         cover = null,
                         isAdult = false,
                         meanScore = 0,
