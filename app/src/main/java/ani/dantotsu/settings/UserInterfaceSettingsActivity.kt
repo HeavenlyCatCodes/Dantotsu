@@ -48,14 +48,18 @@ class UserInterfaceSettingsActivity : AppCompatActivity() {
             var currentOrder = PrefManager.getVal<List<Int>>(PrefName.HomeLayoutOrder).toMutableList()
             val views = resources.getStringArray(R.array.home_layouts)
             val fixedIndex = 7
+            val removedSections = setOf(0, 1, 2, 8)
 
             if (currentVisibility.size < views.size) {
                 repeat(views.size - currentVisibility.size) { currentVisibility.add(true) }
             } else if (currentVisibility.size > views.size) {
                 currentVisibility.subList(views.size, currentVisibility.size).clear()
             }
+            removedSections.forEach { index ->
+                if (index < currentVisibility.size) currentVisibility[index] = false
+            }
 
-            val reorderable = views.indices.filter { it != fixedIndex }
+            val reorderable = views.indices.filter { it != fixedIndex && it !in removedSections }
             if (currentOrder.isEmpty()) {
                 currentOrder = reorderable.toMutableList()
             } else {
@@ -115,8 +119,15 @@ class UserInterfaceSettingsActivity : AppCompatActivity() {
                 setTitle(getString(R.string.home_layout_show))
                 setCustomView(recyclerView)
                 setPosButton(R.string.ok) {
+                    removedSections.forEach { index ->
+                        if (index < currentVisibility.size) currentVisibility[index] = false
+                    }
+                    val savedOrder = displayList.drop(1).toMutableList()
+                    removedSections.forEach { index ->
+                        if (index != fixedIndex && index !in savedOrder) savedOrder.add(index)
+                    }
                     PrefManager.setVal(PrefName.HomeLayout, currentVisibility)
-                    PrefManager.setVal(PrefName.HomeLayoutOrder, displayList.drop(1))
+                    PrefManager.setVal(PrefName.HomeLayoutOrder, savedOrder)
                     restartApp()
                 }
                 setNegButton(R.string.cancel, null)
