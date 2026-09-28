@@ -1,7 +1,5 @@
 package ani.dantotsu.home
 
-import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.doOnAttach
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
@@ -18,13 +15,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import ani.dantotsu.R
 import ani.dantotsu.ZoomOutPageTransformer
+import ani.dantotsu.bindGlassChrome
 import ani.dantotsu.databinding.ActivityNoInternetBinding
-import ani.dantotsu.download.anime.OfflineAnimeFragment
 import ani.dantotsu.download.manga.OfflineMangaFragment
 import ani.dantotsu.initActivity
+import ani.dantotsu.mainTabFromPref
 import ani.dantotsu.navBarHeight
 import ani.dantotsu.offline.LocalFragment
-import ani.dantotsu.offline.OfflineFragment
 import ani.dantotsu.selectedOption
 import ani.dantotsu.settings.saving.PrefManager
 import ani.dantotsu.settings.saving.PrefName
@@ -43,15 +40,8 @@ class NoInternet : AppCompatActivity() {
         setContentView(binding.root)
 
         val bottomBar = findViewById<AnimatedBottomBar>(R.id.navbar)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-            val backgroundDrawable = bottomBar.background as GradientDrawable
-            val currentColor = backgroundDrawable.color?.defaultColor ?: 0
-            val semiTransparentColor = (currentColor and 0x00FFFFFF) or 0xE8000000.toInt()
-            backgroundDrawable.setColor(semiTransparentColor)
-            bottomBar.background = backgroundDrawable
-        }
-        bottomBar.background = ContextCompat.getDrawable(this, R.drawable.bottom_nav_gray)
+        bottomBar.background = null
+        binding.includedNavbar.navbarGlass.bindGlassChrome(binding.viewpager)
 
 
         var doubleBackToExitPressedOnce = false
@@ -69,7 +59,7 @@ class NoInternet : AppCompatActivity() {
 
         binding.root.doOnAttach {
             initActivity(this)
-            selectedOption = PrefManager.getVal(PrefName.DefaultStartUpTab)
+            selectedOption = mainTabFromPref(PrefManager.getVal(PrefName.DefaultStartUpTab))
 
             binding.includedNavbar.navbarContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = navBarHeight
@@ -109,14 +99,12 @@ class NoInternet : AppCompatActivity() {
     private class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
         FragmentStateAdapter(fragmentManager, lifecycle) {
 
-        override fun getItemCount(): Int = 3
+        override fun getItemCount(): Int = 2
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> OfflineAnimeFragment()
-                1 -> LocalFragment()
-                2 -> OfflineMangaFragment()
-                else -> OfflineFragment()
+                1 -> OfflineMangaFragment()
+                else -> LocalFragment()
             }
         }
     }

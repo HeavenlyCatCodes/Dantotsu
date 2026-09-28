@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import ani.dantotsu.R
+import ani.dantotsu.bindGlassChrome
 import ani.dantotsu.connections.anilist.Anilist
 import ani.dantotsu.databinding.ActivityNotificationBinding
 import ani.dantotsu.initActivity
@@ -35,6 +36,7 @@ class FeedActivity : AppCompatActivity() {
             topMargin = statusBarHeight
         }
         navBar = binding.notificationNavBar
+        binding.notificationNavGlass.bindGlassChrome(binding.notificationViewPager)
         binding.root.updateLayoutParams<ViewGroup.MarginLayoutParams> {
             bottomMargin = navBarHeight
         }
