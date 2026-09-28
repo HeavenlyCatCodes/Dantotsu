@@ -304,7 +304,8 @@ class MainActivity : AppCompatActivity() {
                     else -> 0
                 }
             } else {
-                mainTabFromPref(PrefManager.getVal(PrefName.DefaultStartUpTab))
+                val stored = PrefManager.getVal<Int>(PrefName.DefaultStartUpTab)
+                if (stored == 2) 1 else 0
             }
             val navbar = binding.includedNavbar.navbar
             bottomBar = navbar
