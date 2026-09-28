@@ -79,6 +79,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/nav_bg_inv"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
