@@ -42,7 +42,6 @@ fun computeGitCommitHash(): String {
 
 val gitCommitHash = computeGitCommitHash()
 
-
 android {
     namespace = "ani.dantotsu"
     compileSdk = 37

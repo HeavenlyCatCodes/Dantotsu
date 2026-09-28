@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import ani.dantotsu.R
 import ani.dantotsu.blurImage
+import ani.dantotsu.bindGlassChrome
 import ani.dantotsu.connections.anilist.Anilist
 import ani.dantotsu.connections.anilist.api.Query
 import ani.dantotsu.copyToClipboard
@@ -39,6 +40,7 @@ import ani.dantotsu.snackString
 import ani.dantotsu.statusBarHeight
 import ani.dantotsu.themes.ThemeManager
 import ani.dantotsu.toast
+import com.example.liquidglass.LiquidGlassView
 import ani.dantotsu.util.customAlertDialog
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.Dispatchers
@@ -63,6 +65,8 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         }
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.profileNavGlass?.bindGlassChrome(binding.profileViewPager)
+            ?: (binding.profileNavBarContainer as? LiquidGlassView)?.bindGlassChrome(binding.profileViewPager)
         val context = this
         screenWidth = resources.displayMetrics.widthPixels.toFloat()
         navBar = binding.profileNavBar
