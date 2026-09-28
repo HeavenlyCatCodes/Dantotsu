@@ -84,31 +84,6 @@ class SettingsExtensionsActivity : AppCompatActivity() {
                 arrayListOf(
                     Settings(
                         type = 1,
-                        name = getString(R.string.anime_add_repository),
-                        desc = getString(R.string.anime_add_repository_desc),
-                        icon = R.drawable.ic_github,
-                        onClick = {
-                            val animeRepos =
-                                PrefManager.getVal<Set<String>>(PrefName.AnimeExtensionRepos)
-                            AddRepositoryBottomSheet.newInstance(
-                                MediaType.ANIME,
-                                animeRepos.toList(),
-                                onRepositoryAdded = { input, mediaType ->
-                                    AddRepositoryBottomSheet.addRepo(input, mediaType)
-                                    setExtensionOutput(it.attachView, mediaType)
-                                },
-                                onRepositoryRemoved = { item, mediaType ->
-                                    AddRepositoryBottomSheet.removeRepo(item, mediaType)
-                                    setExtensionOutput(it.attachView, mediaType)
-                                }
-                            ).show(supportFragmentManager, "add_repo")
-                        },
-                        attach = {
-                            setExtensionOutput(it.attachView, MediaType.ANIME)
-                        }
-                    ),
-                    Settings(
-                        type = 1,
                         name = getString(R.string.manga_add_repository),
                         desc = getString(R.string.manga_add_repository_desc),
                         icon = R.drawable.ic_github,

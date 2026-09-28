@@ -83,17 +83,15 @@ class ExtensionsActivity : AppCompatActivity() {
         viewPager.offscreenPageLimit = 1
 
         viewPager.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int = 6
+            override fun getItemCount(): Int = 4
 
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-                    0 -> InstalledAnimeExtensionsFragment()
-                    1 -> AnimeExtensionsFragment()
-                    2 -> InstalledMangaExtensionsFragment()
-                    3 -> MangaExtensionsFragment()
-                    4 -> InstalledNovelExtensionsFragment()
-                    5 -> NovelExtensionsFragment()
-                    else -> AnimeExtensionsFragment()
+                    0 -> InstalledMangaExtensionsFragment()
+                    1 -> MangaExtensionsFragment()
+                    2 -> InstalledNovelExtensionsFragment()
+                    3 -> NovelExtensionsFragment()
+                    else -> MangaExtensionsFragment()
                 }
             }
 
@@ -143,12 +141,10 @@ class ExtensionsActivity : AppCompatActivity() {
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Installed Anime"
-                1 -> "Available Anime"
-                2 -> "Installed Manga"
-                3 -> "Available Manga"
-                4 -> "Installed Novels"
-                5 -> "Available Novels"
+                0 -> "Installed Manga"
+                1 -> "Available Manga"
+                2 -> "Installed Novels"
+                3 -> "Available Novels"
                 else -> null
             }
         }.attach()
