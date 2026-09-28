@@ -77,7 +77,7 @@ class SearchActivity : AppCompatActivity() {
         )
 
         val notSet = model.notSet
-        searchType = SearchType.fromString(intent.getStringExtra("type") ?: "ANIME")
+        searchType = SearchType.fromString(intent.getStringExtra("type") ?: "MANGA")
         when (searchType) {
             SearchType.ANIME, SearchType.MANGA -> {
                 style = PrefManager.getVal(PrefName.SearchStyle)
