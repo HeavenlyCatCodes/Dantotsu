@@ -41,6 +41,7 @@ import ani.dantotsu.databinding.ActivityMediaBinding
 import ani.dantotsu.getThemeColor
 import ani.dantotsu.initActivity
 import ani.dantotsu.loadImage
+import ani.dantotsu.bindGlassChrome
 import ani.dantotsu.media.anime.AnimeWatchFragment
 import ani.dantotsu.media.comments.CommentsFragment
 import ani.dantotsu.notifications.comment.MediaNameFetch
@@ -142,6 +143,7 @@ class MediaDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedLi
         setContentView(binding.root)
         screenWidth = resources.displayMetrics.widthPixels.toFloat()
         navBar = binding.mediaBottomBar
+        binding.mediaBottomGlass?.bindGlassChrome(binding.mediaViewPager)
 
         supportFragmentManager.addOnBackStackChangedListener {
             syncExtensionPrefsUi()
