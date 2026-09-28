@@ -19,7 +19,6 @@ import ani.dantotsu.bindGlassChrome
 import ani.dantotsu.databinding.ActivityNoInternetBinding
 import ani.dantotsu.download.manga.OfflineMangaFragment
 import ani.dantotsu.initActivity
-import ani.dantotsu.mainTabFromPref
 import ani.dantotsu.navBarHeight
 import ani.dantotsu.offline.LocalFragment
 import ani.dantotsu.selectedOption
@@ -59,7 +58,8 @@ class NoInternet : AppCompatActivity() {
 
         binding.root.doOnAttach {
             initActivity(this)
-            selectedOption = mainTabFromPref(PrefManager.getVal(PrefName.DefaultStartUpTab))
+            val stored = PrefManager.getVal<Int>(PrefName.DefaultStartUpTab)
+            selectedOption = if (stored == 2) 1 else 0
 
             binding.includedNavbar.navbarContainer.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = navBarHeight
