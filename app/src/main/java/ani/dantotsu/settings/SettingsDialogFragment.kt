@@ -15,10 +15,8 @@ import ani.dantotsu.Refresh
 import ani.dantotsu.connections.anilist.Anilist
 import ani.dantotsu.connections.mal.MAL
 import ani.dantotsu.databinding.BottomSheetSettingsBinding
-import ani.dantotsu.download.anime.OfflineAnimeFragment
 import ani.dantotsu.download.manga.OfflineMangaFragment
 import ani.dantotsu.getThemeColor
-import ani.dantotsu.home.AnimeFragment
 import ani.dantotsu.home.HomeFragment
 import ani.dantotsu.home.LoginFragment
 import ani.dantotsu.home.MangaFragment
@@ -181,20 +179,11 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
                 // Ensure fragment is added and activity is not null
                 if (currentActivity != null && isAdded) {
                     when (pageType) {
-                        PageType.MANGA -> {
+                        PageType.ANIME, PageType.MANGA -> {
                             val intent = Intent(currentActivity, NoInternet::class.java)
                             intent.putExtra(
                                 "FRAGMENT_CLASS_NAME",
                                 OfflineMangaFragment::class.java.name
-                            )
-                            startActivity(intent)
-                        }
-
-                        PageType.ANIME -> {
-                            val intent = Intent(currentActivity, NoInternet::class.java)
-                            intent.putExtra(
-                                "FRAGMENT_CLASS_NAME",
-                                OfflineAnimeFragment::class.java.name
                             )
                             startActivity(intent)
                         }
@@ -205,7 +194,7 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
                             startActivity(intent)
                         }
 
-                        PageType.OfflineMANGA -> {
+                        PageType.OfflineANIME, PageType.OfflineMANGA -> {
                             val intent = Intent(currentActivity, MainActivity::class.java)
                             intent.putExtra("FRAGMENT_CLASS_NAME", MangaFragment::class.java.name)
                             startActivity(intent)
@@ -217,12 +206,6 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
                                 "FRAGMENT_CLASS_NAME",
                                 if (Anilist.token != null) HomeFragment::class.java.name else LoginFragment::class.java.name
                             )
-                            startActivity(intent)
-                        }
-
-                        PageType.OfflineANIME -> {
-                            val intent = Intent(currentActivity, MainActivity::class.java)
-                            intent.putExtra("FRAGMENT_CLASS_NAME", AnimeFragment::class.java.name)
                             startActivity(intent)
                         }
                     }
