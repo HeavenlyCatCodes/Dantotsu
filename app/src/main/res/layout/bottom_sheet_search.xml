@@ -31,6 +31,7 @@
         android:textAlignment="viewStart"
         android:textAllCaps="false"
         android:textColor="?attr/colorOnBackground"
+        android:visibility="gone"
         app:cornerRadius="0dp" />
 
     <Button
