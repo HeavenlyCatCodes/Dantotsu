@@ -111,8 +111,8 @@ class HomeFragment : Fragment() {
                             && PrefManager.getVal<Boolean>(PrefName.ShowNotificationRedDot) == true
                     currentBinding.homeNotificationCount.text = Anilist.unreadNotificationCount.toString()
                 } else {
-                    currentBinding.homeUserEpisodesWatched.text = MAL.episodesWatched?.toString() ?: "—"
-                    currentBinding.homeUserChaptersRead.text = MAL.chaptersRead?.toString() ?: "—"
+                    currentBinding.homeUserEpisodesWatched.text = MAL.episodesWatched?.toString() ?: "\u2014"
+                    currentBinding.homeUserChaptersRead.text = MAL.chaptersRead?.toString() ?: "\u2014"
                     currentBinding.homeNotificationCount.isVisible = false
                 }
 
@@ -126,14 +126,6 @@ class HomeFragment : Fragment() {
 
                 val listUserId = Anilist.userid ?: 0
                 val listUsername = if (rescueMode) MAL.username ?: Anilist.username else Anilist.username
-                currentBinding.homeAnimeList.setOnClickListener {
-                    ContextCompat.startActivity(
-                        requireActivity(), Intent(requireActivity(), ListActivity::class.java)
-                            .putExtra("anime", true)
-                            .putExtra("userId", listUserId)
-                            .putExtra("username", listUsername), null
-                    )
-                }
                 currentBinding.homeMangaList.setOnClickListener {
                     ContextCompat.startActivity(
                         requireActivity(), Intent(requireActivity(), ListActivity::class.java)
@@ -147,7 +139,7 @@ class HomeFragment : Fragment() {
                 binding.homeUserDataContainer.visibility = View.VISIBLE
                 binding.homeUserDataContainer.layoutAnimation =
                     LayoutAnimationController(setSlideUp(), 0.25f)
-                binding.homeAnimeList.visibility = View.VISIBLE
+                binding.homeAnimeList.visibility = View.GONE
                 binding.homeMangaList.visibility = View.VISIBLE
                 binding.homeListContainer.layoutAnimation =
                     LayoutAnimationController(setSlideIn(), 0.25f)
@@ -262,9 +254,9 @@ class HomeFragment : Fragment() {
                         anime = ani.dantotsu.media.anime.Anime(),
                         manga = null,
                         id = -100 - i,
-                        name = "•••",
-                        nameRomaji = "•••",
-                        userPreferredName = "••••••••••••",
+                        name = "\u2022\u2022\u2022",
+                        nameRomaji = "\u2022\u2022\u2022",
+                        userPreferredName = "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022",
                         cover = null,
                         isAdult = false,
                         meanScore = 0,
@@ -341,57 +333,6 @@ class HomeFragment : Fragment() {
 
         }
 
-        // Recycler Views
-        initRecyclerView(
-            model.getAnimeContinue(),
-            binding.homeContinueWatchingContainer,
-            binding.homeWatchingRecyclerView,
-            binding.homeWatchingProgressBar,
-            binding.homeWatchingEmpty,
-            binding.homeContinueWatch,
-            binding.homeContinueWatchMore,
-            getString(R.string.continue_watching)
-        )
-        binding.homeWatchingBrowseButton.setOnClickListener {
-            bottomBarOrNull?.selectTabAt(0)
-        }
-
-        initRecyclerView(
-            model.getAnimeFav(),
-            binding.homeFavAnimeContainer,
-            binding.homeFavAnimeRecyclerView,
-            binding.homeFavAnimeProgressBar,
-            binding.homeFavAnimeEmpty,
-            binding.homeFavAnime,
-            binding.homeFavAnimeMore,
-            getString(R.string.fav_anime)
-        )
-
-        initRecyclerView(
-            model.getAnimePlanned(),
-            binding.homePlannedAnimeContainer,
-            binding.homePlannedAnimeRecyclerView,
-            binding.homePlannedAnimeProgressBar,
-            binding.homePlannedAnimeEmpty,
-            binding.homePlannedAnime,
-            binding.homePlannedAnimeMore,
-            getString(R.string.planned_anime)
-        )
-        binding.homePlannedAnimeBrowseButton.setOnClickListener {
-            bottomBarOrNull?.selectTabAt(0)
-        }
-
-        initRecyclerView(
-            model.getMissingSequels(),
-            binding.homeMissingSequelsContainer,
-            binding.homeMissingSequelsRecyclerView,
-            binding.homeMissingSequelsProgressBar,
-            binding.homeMissingSequelsEmpty,
-            binding.homeMissingSequels,
-            binding.homeMissingSequelsMore,
-            getString(R.string.missing_sequels)
-        )
-
         initRecyclerView(
             model.getMangaContinue(),
             binding.homeContinueReadingContainer,
@@ -403,7 +344,7 @@ class HomeFragment : Fragment() {
             getString(R.string.continue_reading)
         )
         binding.homeReadingBrowseButton.setOnClickListener {
-            bottomBarOrNull?.selectTabAt(2)
+            bottomBarOrNull?.selectTabAt(1)
         }
 
         initRecyclerView(
@@ -428,7 +369,7 @@ class HomeFragment : Fragment() {
             getString(R.string.planned_manga)
         )
         binding.homePlannedMangaBrowseButton.setOnClickListener {
-            bottomBarOrNull?.selectTabAt(2)
+            bottomBarOrNull?.selectTabAt(1)
         }
 
         initRecyclerView(
@@ -583,6 +524,8 @@ binding.homeRecommendedRecyclerView.addOnScrollListener(object :
             binding.homeUserStatusContainer,
             binding.homeMissingSequelsContainer,
         )
+        val removedHomeSections = setOf(0, 1, 2, 8)
+        removedHomeSections.forEach { containers[it].visibility = View.GONE }
 
         var running = false
         val live = Refresh.activity.getOrPut(1) { MutableLiveData(true) }
@@ -601,15 +544,18 @@ binding.homeRecommendedRecyclerView.addOnScrollListener(object :
                 if (inRescueMode) {
                     alOnlySections.forEach { it.visibility = View.GONE }
 
-                    binding.homeContinueWatchingContainer.visibility = View.VISIBLE
-                    binding.homePlannedAnimeContainer.visibility = View.VISIBLE
+                    binding.homeContinueWatchingContainer.visibility = View.GONE
+                    binding.homePlannedAnimeContainer.visibility = View.GONE
                     binding.homeContinueReadingContainer.visibility = View.VISIBLE
                     binding.homePlannedMangaContainer.visibility = View.VISIBLE
                 } else {
                     val homeLayoutShow: List<Boolean> = PrefManager.getVal(PrefName.HomeLayout)
                     val alOnlyIndices = listOf(1, 4, 7, 8)
                     alOnlySections.forEachIndexed { idx, view ->
-                        if (homeLayoutShow.getOrElse(alOnlyIndices[idx]) { true }) {
+                        val section = alOnlyIndices[idx]
+                        if (section in removedHomeSections) {
+                            view.visibility = View.GONE
+                        } else if (homeLayoutShow.getOrElse(section) { true }) {
                             view.visibility = View.VISIBLE
                         } else {
                             view.visibility = View.GONE
@@ -683,10 +629,10 @@ binding.homeRecommendedRecyclerView.addOnScrollListener(object :
 
                     withContext(Dispatchers.Main) {
                         containers.indices.forEach { i ->
-                            if (homeLayoutShow.getOrElse(i) { true }) {
-                                empty = false
-                            } else {
+                            if (i in removedHomeSections || !homeLayoutShow.getOrElse(i) { true }) {
                                 containers[i].visibility = View.GONE
+                            } else {
+                                empty = false
                             }
                         }
 
