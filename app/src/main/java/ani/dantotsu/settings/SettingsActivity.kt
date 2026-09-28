@@ -140,16 +140,6 @@ class SettingsActivity : AppCompatActivity() {
                     ),
                     Settings(
                         type = 1,
-                        name = getString(R.string.anime),
-                        desc = getString(R.string.anime_desc),
-                        icon = R.drawable.ic_round_movie_filter_24,
-                        onClick = {
-                            startActivity(Intent(context, SettingsAnimeActivity::class.java))
-                        },
-                        isActivity = true
-                    ),
-                    Settings(
-                        type = 1,
                         name = getString(R.string.manga),
                         desc = getString(R.string.manga_desc),
                         icon = R.drawable.ic_round_import_contacts_24,
