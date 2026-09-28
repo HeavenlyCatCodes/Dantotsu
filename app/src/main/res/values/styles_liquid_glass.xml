@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Regular liquid-glass chrome. Host opacity stays 1. Not for content cards. -->
+    <style name="LiquidGlassChrome">
+        <item name="cornerRadius">28dp</item>
+        <item name="glassMaterial">regular</item>
+        <item name="refractionHeight">12dp</item>
+        <item name="bevelWidth">20dp</item>
+        <item name="dispersionStrength">0.08</item>
+        <item name="adaptiveTint">true</item>
+        <item name="adaptiveLensScale">true</item>
+        <item name="sensorHighlight">false</item>
+        <item name="glassTint">#1FFFFFFF</item>
+        <item name="glassTintStrength">0.14</item>
+        <item name="blurAmount">0.14</item>
+    </style>
+
+    <!-- Docked bar: lens the top edge, keep the bottom flush with the screen. -->
+    <style name="LiquidGlassChrome.Dock">
+        <item name="cornerRadius">0dp</item>
+        <item name="cornerRadiusTopLeft">28dp</item>
+        <item name="cornerRadiusTopRight">28dp</item>
+        <item name="flatEdges">left|right|bottom</item>
+        <item name="refractionHeight">10dp</item>
+        <item name="bevelWidth">16dp</item>
+    </style>
+</resources>
