@@ -21,10 +21,10 @@ import ani.dantotsu.MediaPageTransformer
 import ani.dantotsu.R
 import ani.dantotsu.connections.anilist.Anilist
 import ani.dantotsu.connections.mal.MAL
+import ani.dantotsu.bindGlassChrome
 import ani.dantotsu.databinding.ItemAnimePageBinding
 import ani.dantotsu.databinding.LayoutTrendingBinding
 import ani.dantotsu.getAppString
-import ani.dantotsu.getThemeColor
 import ani.dantotsu.loadImage
 import ani.dantotsu.media.CalendarActivity
 import ani.dantotsu.media.GenreActivity
@@ -42,8 +42,6 @@ import ani.dantotsu.settings.SettingsDialogFragment
 import ani.dantotsu.settings.saving.PrefManager
 import ani.dantotsu.settings.saving.PrefName
 import ani.dantotsu.statusBarHeight
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.textfield.TextInputLayout
 
 class AnimePageAdapter : RecyclerView.Adapter<AnimePageAdapter.AnimePageViewHolder>() {
     val ready = MutableLiveData(false)
@@ -63,17 +61,7 @@ class AnimePageAdapter : RecyclerView.Adapter<AnimePageAdapter.AnimePageViewHold
         binding = holder.binding
         trendingBinding = LayoutTrendingBinding.bind(binding.root)
         trendingViewPager = trendingBinding.trendingViewPager
-
-        val textInputLayout = holder.itemView.findViewById<TextInputLayout>(R.id.searchBar)
-        val currentColor = textInputLayout.boxBackgroundColor
-        val semiTransparentColor = (currentColor and 0x00FFFFFF) or 0xA8000000.toInt()
-        textInputLayout.boxBackgroundColor = semiTransparentColor
-        val materialCardView =
-            holder.itemView.findViewById<MaterialCardView>(R.id.userAvatarContainer)
-        materialCardView.setCardBackgroundColor(semiTransparentColor)
-        val color = binding.root.context.getThemeColor(android.R.attr.windowBackground)
-        textInputLayout.boxBackgroundColor = (color and 0x00FFFFFF) or 0x28000000
-        materialCardView.setCardBackgroundColor((color and 0x00FFFFFF) or 0x28000000)
+        trendingBinding.homeChromeGlass.bindGlassChrome(trendingBinding.trendingViewPager)
 
         trendingBinding.titleContainer.updatePadding(top = statusBarHeight)
 
