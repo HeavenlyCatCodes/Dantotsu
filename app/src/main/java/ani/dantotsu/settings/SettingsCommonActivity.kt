@@ -470,10 +470,9 @@ class SettingsCommonActivity : AppCompatActivity() {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 setHasFixedSize(true)
             }
+            (uiSettingsAnime.parent as? View)?.visibility = View.GONE
             var previousStart: View =
                 when (PrefManager.getVal<Int>(PrefName.DefaultStartUpTab)) {
-                    0 -> uiSettingsAnime
-                    1 -> uiSettingsHome
                     2 -> uiSettingsManga
                     else -> uiSettingsHome
                 }
