@@ -42,6 +42,7 @@ fun computeGitCommitHash(): String {
 
 val gitCommitHash = computeGitCommitHash()
 
+
 android {
     namespace = "ani.dantotsu"
     compileSdk = 37
@@ -187,6 +188,9 @@ dependencies {
     // Core libs
     implementation(libs.bundles.misc)
     implementation(libs.metro.runtime)
+
+    // iOS-style liquid glass chrome (Views). API 33+ AGSL, classic pipeline below.
+    implementation("com.github.QWEA0:liquidglass:v2.0.11")
     implementation(libs.bundles.sqldelight)
     implementation(libs.androidx.profileInstaller)
 
